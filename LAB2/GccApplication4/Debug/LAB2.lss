@@ -1,0 +1,252 @@
+
+LAB2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  000001be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000016a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  000001be  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001f0  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  00000230  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006ee  00000000  00000000  00000268  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000663  00000000  00000000  00000956  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000268  00000000  00000000  00000fb9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000074  00000000  00000000  00001224  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003b9  00000000  00000000  00001298  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000078  00000000  00000000  00001651  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000016c9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__vector_3>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 40 00 	jmp	0x80	; 0x80 <__vector_11>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 7f 00 	call	0xfe	; 0xfe <main>
+  78:	0c 94 b3 00 	jmp	0x166	; 0x166 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <__vector_11>:
+using namespace std;
+
+#define SWITCH_PRESSED !(PINB & (1<<PINB7))
+
+ISR(TIMER1_COMPA_vect)
+{
+  80:	1f 92       	push	r1
+  82:	0f 92       	push	r0
+  84:	0f b6       	in	r0, 0x3f	; 63
+  86:	0f 92       	push	r0
+  88:	11 24       	eor	r1, r1
+	LED_TOGGLE;
+  8a:	1d 9a       	sbi	0x03, 5	; 3
+}
+  8c:	0f 90       	pop	r0
+  8e:	0f be       	out	0x3f, r0	; 63
+  90:	0f 90       	pop	r0
+  92:	1f 90       	pop	r1
+  94:	18 95       	reti
+
+00000096 <__vector_3>:
+
+ISR(PCINT0_vect)
+{
+  96:	1f 92       	push	r1
+  98:	0f 92       	push	r0
+  9a:	0f b6       	in	r0, 0x3f	; 63
+  9c:	0f 92       	push	r0
+  9e:	11 24       	eor	r1, r1
+  a0:	8f 93       	push	r24
+  a2:	9f 93       	push	r25
+	if(SWITCH_PRESSED)
+  a4:	1f 99       	sbic	0x03, 7	; 3
+  a6:	04 c0       	rjmp	.+8      	; 0xb0 <__vector_3+0x1a>
+	{
+		BIT_FLIP_IN_REG(PORTB, PORTB0);
+  a8:	95 b1       	in	r25, 0x05	; 5
+  aa:	81 e0       	ldi	r24, 0x01	; 1
+  ac:	89 27       	eor	r24, r25
+  ae:	85 b9       	out	0x05, r24	; 5
+	}
+}
+  b0:	9f 91       	pop	r25
+  b2:	8f 91       	pop	r24
+  b4:	0f 90       	pop	r0
+  b6:	0f be       	out	0x3f, r0	; 63
+  b8:	0f 90       	pop	r0
+  ba:	1f 90       	pop	r1
+  bc:	18 95       	reti
+
+000000be <_Z15timer_Frequencyh>:
+	*	Bit 2, 1, 0 for Clock Select
+	*	We make bit 2 (CS12) high for the code (0b100) prescaler 256
+	*	TCCR1B Bit 4, 3 and TCCR1A Bit 1, 0 to select the Mode of Operation 
+	*	we make bit 3 of TCCR1B high for the code (0b0100) CTC mode
+	*/
+	BITS_2_ON_IN_REG(TCCR1B, CS12, WGM12);	
+  be:	e1 e8       	ldi	r30, 0x81	; 129
+  c0:	f0 e0       	ldi	r31, 0x00	; 0
+  c2:	90 81       	ld	r25, Z
+  c4:	9c 60       	ori	r25, 0x0C	; 12
+  c6:	90 83       	st	Z, r25
+	/*
+	*	TIMSK1 (Timer / Counter1 Interrupt Mask Register) 16.11.8
+	*	Bit 1 (OCIE1A [Timer / Counter1 Output Compare A Match Interrupt Enable])
+	*	Turn this bit on to trigger the interrupt if output compare A is high 
+	*/
+	BIT_ON_IN_REG(TIMSK1, OCIE1A);
+  c8:	ef e6       	ldi	r30, 0x6F	; 111
+  ca:	f0 e0       	ldi	r31, 0x00	; 0
+  cc:	90 81       	ld	r25, Z
+  ce:	92 60       	ori	r25, 0x02	; 2
+  d0:	90 83       	st	Z, r25
+	*	[F_CPU = Fclk_I/O], [N = Prescaler]
+	*	Freq = F_CPU / 2 * N * (1 + OCR1A)
+	*	Change formula to calculate OCR1A with a given Freq
+	*	OCR1A = F_CPU / (Freq * 2 * N) - 1
+	*/
+	OCR1A = (F_CPU/(freq*2*256)-1);
+  d2:	28 2f       	mov	r18, r24
+  d4:	30 e0       	ldi	r19, 0x00	; 0
+  d6:	32 2f       	mov	r19, r18
+  d8:	22 27       	eor	r18, r18
+  da:	33 0f       	add	r19, r19
+  dc:	03 2e       	mov	r0, r19
+  de:	00 0c       	add	r0, r0
+  e0:	44 0b       	sbc	r20, r20
+  e2:	55 0b       	sbc	r21, r21
+  e4:	60 e0       	ldi	r22, 0x00	; 0
+  e6:	74 e2       	ldi	r23, 0x24	; 36
+  e8:	84 ef       	ldi	r24, 0xF4	; 244
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	0e 94 91 00 	call	0x122	; 0x122 <__udivmodsi4>
+  f0:	21 50       	subi	r18, 0x01	; 1
+  f2:	31 09       	sbc	r19, r1
+  f4:	30 93 89 00 	sts	0x0089, r19	; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
+  f8:	20 93 88 00 	sts	0x0088, r18	; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
+  fc:	08 95       	ret
+
+000000fe <main>:
+
+void timer_Frequency(uint8_t freq);
+
+int main(void)
+{
+	PIN_X_INPUT(DDRB, DDB7);
+  fe:	27 98       	cbi	0x04, 7	; 4
+	PIN_X_OUTPUT(DDRB, DDB5);
+ 100:	25 9a       	sbi	0x04, 5	; 4
+	PIN_X_OUTPUT(DDRB, DDB0);
+ 102:	20 9a       	sbi	0x04, 0	; 4
+	
+	BIT_ON_IN_REG(PCMSK0, PCINT7);
+ 104:	eb e6       	ldi	r30, 0x6B	; 107
+ 106:	f0 e0       	ldi	r31, 0x00	; 0
+ 108:	80 81       	ld	r24, Z
+ 10a:	80 68       	ori	r24, 0x80	; 128
+ 10c:	80 83       	st	Z, r24
+	BIT_ON_IN_REG(PCICR, PCIE0);
+ 10e:	e8 e6       	ldi	r30, 0x68	; 104
+ 110:	f0 e0       	ldi	r31, 0x00	; 0
+ 112:	80 81       	ld	r24, Z
+ 114:	81 60       	ori	r24, 0x01	; 1
+ 116:	80 83       	st	Z, r24
+	
+	timer_Frequency(2);
+ 118:	82 e0       	ldi	r24, 0x02	; 2
+ 11a:	0e 94 5f 00 	call	0xbe	; 0xbe <_Z15timer_Frequencyh>
+	
+	sei();
+ 11e:	78 94       	sei
+ 120:	ff cf       	rjmp	.-2      	; 0x120 <main+0x22>
+
+00000122 <__udivmodsi4>:
+ 122:	a1 e2       	ldi	r26, 0x21	; 33
+ 124:	1a 2e       	mov	r1, r26
+ 126:	aa 1b       	sub	r26, r26
+ 128:	bb 1b       	sub	r27, r27
+ 12a:	fd 01       	movw	r30, r26
+ 12c:	0d c0       	rjmp	.+26     	; 0x148 <__udivmodsi4_ep>
+
+0000012e <__udivmodsi4_loop>:
+ 12e:	aa 1f       	adc	r26, r26
+ 130:	bb 1f       	adc	r27, r27
+ 132:	ee 1f       	adc	r30, r30
+ 134:	ff 1f       	adc	r31, r31
+ 136:	a2 17       	cp	r26, r18
+ 138:	b3 07       	cpc	r27, r19
+ 13a:	e4 07       	cpc	r30, r20
+ 13c:	f5 07       	cpc	r31, r21
+ 13e:	20 f0       	brcs	.+8      	; 0x148 <__udivmodsi4_ep>
+ 140:	a2 1b       	sub	r26, r18
+ 142:	b3 0b       	sbc	r27, r19
+ 144:	e4 0b       	sbc	r30, r20
+ 146:	f5 0b       	sbc	r31, r21
+
+00000148 <__udivmodsi4_ep>:
+ 148:	66 1f       	adc	r22, r22
+ 14a:	77 1f       	adc	r23, r23
+ 14c:	88 1f       	adc	r24, r24
+ 14e:	99 1f       	adc	r25, r25
+ 150:	1a 94       	dec	r1
+ 152:	69 f7       	brne	.-38     	; 0x12e <__udivmodsi4_loop>
+ 154:	60 95       	com	r22
+ 156:	70 95       	com	r23
+ 158:	80 95       	com	r24
+ 15a:	90 95       	com	r25
+ 15c:	9b 01       	movw	r18, r22
+ 15e:	ac 01       	movw	r20, r24
+ 160:	bd 01       	movw	r22, r26
+ 162:	cf 01       	movw	r24, r30
+ 164:	08 95       	ret
+
+00000166 <_exit>:
+ 166:	f8 94       	cli
+
+00000168 <__stop_program>:
+ 168:	ff cf       	rjmp	.-2      	; 0x168 <__stop_program>
